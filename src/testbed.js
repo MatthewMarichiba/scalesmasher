@@ -44,13 +44,13 @@ console.log(myScale.name());
 
 /* Test the MasherFretboard class */
 console.log("Testing the MasherFretboard class with custom values");
-var myFretboard = new MasherFretboard(myInstrument, myScale, 0, 14);
+var myFretboard = new MasherFretboard(myInstrument, myScale, 5, 12);
 console.log(myFretboard.scales[0].notesToShow());
 console.log(myFretboard.instrument.name());
 console.log(myFretboard.highFret);
 
 /* Test adding more scales to myFretboard */
-
+/*
 console.log("Testing adding new scales with addScale().");
 myFretboard.addScale(new MasherScale("C", myMasher.scales.majorPenta, "intervals", "1st additional scale"), 1);
 console.log(myFretboard.scales[1].notesToShow());
@@ -62,7 +62,7 @@ myFretboard.addScale(new MasherScale("A", myMasher.scales.minorPenta, "intervals
 console.log(myFretboard.scales[0].notesToShow());
 console.log(myFretboard.scales[1].notesToShow());
 console.log(myFretboard.scales[2].notesToShow());
-
+*/
 
 
 
@@ -79,20 +79,28 @@ var smElement = document.getElementById("scalesmasher");
 console.log(smElement);
 smElement.innerHTML = myFretboard.innerHTML;
 // console.log(smElement.innerHTML);
+alert("Up next: add a scale to slot 1 and re-render.");
+myFretboard.addScale(new MasherScale("C", myMasher.scales.majorPenta, "intervals", "1st additional scale"), 1);
+myFretboard.renderHTML();
+smElement.innerHTML = myFretboard.innerHTML;
+alert("Up next: remove a scale from slot 0 and re-render.");
+myFretboard.removeScale(0);
+myFretboard.renderHTML();
+smElement.innerHTML = myFretboard.innerHTML;
 
 console.log("Test changing renderings.");
 // alert('Up next: myFretboard.innerHTML = "";');
 // myFretboard.innerHTML = ""; // This doesn't change smElement.innerHTML DOM element. 
 // alert("I just erased innerHTML. What happened?");
 
-alert('Up next: smElement.innerHTML = "";');
-smElement.innerHTML = "";
-myFretboard.innerHTML = "";
-alert('Up next: myFretboard.addScale(new MasherScale("C", myMasher.scales.majorPenta, "intervals", "1st additional scale"), 1);');
-myFretboard.addScale(new MasherScale("C", myMasher.scales.majorPenta, "intervals", "1st additional scale"), 1);
-myFretboard.removeScale(2);         
-myFretboard.renderHTML(); // Re-render, now that we've added a scale
-smElement.innerHTML = myFretboard.innerHTML;
+// alert('Up next: smElement.innerHTML = "";');
+// smElement.innerHTML = "";
+// myFretboard.innerHTML = "";
+// alert('Up next: myFretboard.addScale(new MasherScale("C", myMasher.scales.majorPenta, "intervals", "1st additional scale"), 1);');
+// myFretboard.addScale(new MasherScale("C", myMasher.scales.majorPenta, "intervals", "1st additional scale"), 1);
+// myFretboard.removeScale(2);         
+// myFretboard.renderHTML(); // Re-render, now that we've added a scale
+// smElement.innerHTML = myFretboard.innerHTML;
 
 console.log("Insert the controls div...");
 var myMasherControls = new MasherControls(myFretboard);

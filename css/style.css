@@ -35,11 +35,11 @@
 
 }
 .thickstring {
-   background-image:url('images/goldstring.png');
+   background-image:url('../images/goldstring.png');
    background-repeat:repeat-y;
 }
 .thinstring {
-   background-image:url('images/silverstring.png');
+   background-image:url('../images/silverstring.png');
    background-repeat:repeat-y;
 }
 

@@ -10,13 +10,15 @@
  */
 function MasherFretboard(instrument, scale, lowFret, highFret) {
     // TODO: Test that all args have aren't null. Assign a default value, if they do. 
+
     
-    // Define local properties
+/************* Define local properties that are used by local methods ************/
+    // scaleNoteSets is an array of stringSets. 
+    // Each string set represents the frets on each string where decorators will appear. 
+    this.scaleNoteSets = []; //TODO: DOcument. Rename to "_scaleNoteSets"?
 
-    this.scaleNoteSets = []; //TODO: DOcument. Rename to "_scaleNoteSets"? // DEBUG: Put it here to try.
 
-
-/* Define some operator methods */
+/************* Define operator methods **************/
     this.addScale = function(theScale, scaleNum) {
         if (scaleNum!==undefined) { // if scaleNum was provided, use it
             this.scales[scaleNum] = theScale;
@@ -27,7 +29,7 @@ function MasherFretboard(instrument, scale, lowFret, highFret) {
             this.scales[i] = theScale;
             scaleNum = i;
         }
-        this._populateStringDecorators(this, scaleNum);  //TODO: &&&MJM what's wrong with this?? Something to do with scaleNoteSets not being in th prototype?
+        this._populateStringDecorators(this, scaleNum);  
         return scaleNum;
     }
     this.removeScale = function(scaleNum) {
@@ -66,47 +68,20 @@ function MasherFretboard(instrument, scale, lowFret, highFret) {
         for (var fretNum = this.lowFret; fretNum <= this.highFret; fretNum++) {
             stringsHTML += this._renderFret(fretNum);            
         }
-/* Move this code to a sub-function
-            var thisFret = "";
-    //        console.log("fretNum = " + fretNum);
-            thisFret += '<div id="" class="grid_8 fingerboxcontainer">';
-            var i, lastString;
-    //        for (i = 1, endOn = (stringSet.length - 1); i <= endOn; i++) {
-            for (i = 0, lastString = (this.instrument.numStrings()-1); i <= lastString; i++) {
-                thisFret += '<div id="" class="grid_1 fingerbox thinstring ';  // START of fingerbox div
-                // TODO: Update to adjust string thickness based on string number
-                if (i==0) {thisFret += 'leftedge ';}
-                if (i==lastString) {thisFret += 'rightedge ';}
-                thisFret +='">'; //  fingerbox div
-    //            if (stringSet[i][fretNum]) {
-                if (this.scaleNoteSets[0][i][fretNum]) { //TODO: Update this to handle multiple scales. Currently using only scale 0. 
-                    thisFret += '<div class="notedecorator decorator1">' + this.scaleNoteSets[0][i][fretNum] + '</div>';
-                    // TODO: Update this to display any number of decorators.
-                } else {
-                    thisFret += '&nbsp;';
-                }
-                thisFret += '</div>'; // CLOSE fingerbox DIV
-                console.log(thisFret);  // DEBUG
-            }
-            thisFret += '<div class="grid_1 fretnumber">' + (fretNum) + '</div>';
-            thisFret += '</div>'; // CLOSE fingerboxcontainer DIV
-            thisFret += '<div class="clear"></div>';
-*/
-//            stringsHTML += thisFret;
 
         stringsHTML += '</div>'; // END of fretboardcontainer
         this.innerHTML = stringsHTML;
     }
     /* Fretboard DIV structure:
-    x       <div id="fretboardcontainer" class="container_32">
-    x           <div id="" class="grid_6 nut">&nbsp;</div>
-    x           <div class="clear"></div>
-    x           <div id="" class="grid_7 fingerboxcontainer">
-    x               <div id="" class="grid_1 fingerbox leftedge thickstring">
-    x                   <div class="notedecorator decorator1">P1</div>
-    x               </div>
-    x           </div>
-    x             <div class="clear"></div>
+        <div id="fretboardcontainer" class="container_32">
+            <div id="" class="grid_6 nut">&nbsp;</div>
+            <div class="clear"></div>
+            <div id="" class="grid_7 fingerboxcontainer">
+                <div id="" class="grid_1 fingerbox leftedge thickstring">
+                    <div class="notedecorator decorator1">P1</div>
+                </div>
+            </div>
+        <div class="clear"></div>
     */
 
 // TODO: Touch up JavaDoc
@@ -117,7 +92,6 @@ function MasherFretboard(instrument, scale, lowFret, highFret) {
         var thisFret = '<div id="" class="grid_8 fingerboxcontainer">';
         var lastString = (this.instrument.numStrings()-1);
         for (var i = 0; i <= lastString; i++) { //TODO: rename "i" to "stringNum" for clarity
-//        thisFret += '<div id="" class="grid_1 fingerbox thinstring ';  // START of fingerbox div
             thisFret += '<div id="" class="grid_1 thinstring ';  // START of fingerbox div
             // TODO: Update to adjust string thickness based on string number
             if (fretNum == 0) { // Fret 0 is above the nut and gets different CSS class.
@@ -129,14 +103,6 @@ function MasherFretboard(instrument, scale, lowFret, highFret) {
             }
             thisFret +='">'; //  fingerbox div
             thisFret += this._renderDecorators(i, fretNum);
-/* Move this code to a submethod
-            if (this.scaleNoteSets[0][i][fretNum]) { //TODO: Update this to handle multiple scales. Currently using only scale 0. 
-                thisFret += '<div class="notedecorator decorator1">' + this.scaleNoteSets[0][i][fretNum] + '</div>';
-                // TODO: Update this to display any number of decorators.
-            } else {
-                thisFret += '&nbsp;';
-            }
-*/
             thisFret += '</div>'; // CLOSE fingerbox DIV
             // console.log(thisFret);  // DEBUG
         }
@@ -172,8 +138,9 @@ function MasherFretboard(instrument, scale, lowFret, highFret) {
 
     
 /* *********** Start of MasherFretboard constructor code ********* */
-    // initialize the fretboard properties
-    if (instrument) {this.instrument = instrument;}
+    // initialize the fretboard properties 
+    // In each case, if an arg was passed use it, else fall back on the prototype value.
+    if (instrument) {this.instrument = instrument;} 
     if (scale) {
         this.scales = [];
         this.addScale(scale, 0);
@@ -181,15 +148,10 @@ function MasherFretboard(instrument, scale, lowFret, highFret) {
     if (lowFret) {this.lowFret = lowFret;}
     if (highFret) {this.highFret = highFret;}
     
-    // scaleNoteSets is an array of stringSets. 
-    // Each string set represents the frets on each string where decorators will appear. 
-    this.scaleNoteSets = []; //TODO: DOcument. Rename to "_scaleNoteSets"?
-    // fill the strings: 1. map the lowest string, 2. replicate to higher strings
-    this._populateStringDecorators(this, 0);
-    // return rendered HTML for this instrument.
     this.renderHTML(); // Populate this.innerHTML with updated code.
 }
 
+/******** Other properties and methods used by MasherFretboard **********/
 // Set default values for the fretboard
 MasherFretboard.prototype.instrument = new MasherInstrument(6, "E", ["P4","P4","P4","M3","P4"], "Default Guitar");
 MasherFretboard.prototype.scales = [new MasherScale("C", [1,0,1,0,1,1,0,1,0,1,0,1], "Ionian Scale at C")];
@@ -198,15 +160,9 @@ MasherFretboard.prototype.highFret = 24;
 MasherFretboard.prototype.innerHTML = "Practice your scales at <a href='http://www.scalesmasher.com'>ScalesMasher.com!</a>";
 // MasherFretboard.prototype.scaleNoteSets = []; // An array of arrays representing the string decorators for each scale.
 
-/** Iterates through each scale in the scales array and fills in the notes that belong on the strings.  
- * 
- */
 MasherFretboard.prototype._populateStringDecorators = function(fretBoard, scaleNum) {
-    // for each entry in the scales array 
-//    for (var i = 0; i < fretBoard.scales.length; i++) {
         fretBoard._fillLowStringNotes(fretBoard, scaleNum);
         fretBoard._fillHigherStringNotes(fretBoard, scaleNum);
-//    }
 };
 
 MasherFretboard.prototype._fillLowStringNotes = function(fretBoard, scalesIndex) {
@@ -248,16 +204,6 @@ MasherFretboard.prototype._fillLowStringNotes = function(fretBoard, scalesIndex)
             // TODO: Update this code to assign the decorator values directly to lowString.
             console.log("i= " + i + ", Fret: " + fretInQuestion + ", value = " + lowString[fretInQuestion]);
         } 
-/* test: don't run the else clause.
-        } else {
-            lowString[fretInQuestion] = ""; 
-            lowString[fretInQuestion+12] = "";
-//            lowString[fretInQuestion] = "| "; 
-//             lowString[fretInQuestion+12] = "| ";
-//            console.log("i= " + i + ", Fret: " + fretInQuestion + ", value = " + lowString[fretInQuestion]);
-        }
-*/
-        // TODO: Remove all this junk debug code. 
     }
     lowString[24] = lowString[0];
 
@@ -269,6 +215,9 @@ MasherFretboard.prototype._fillLowStringNotes = function(fretBoard, scalesIndex)
     return;
 };
 
+/** 
+ * Iterates through each scale in the scales array and fills in the notes that belong on the strings.  
+ */
 MasherFretboard.prototype._fillHigherStringNotes = function(fretBoard, scalesIndex) {
     var intervalToNextString;
     for (var theString = 0; theString < (fretBoard.instrument.numStrings() - 1); theString++) {
