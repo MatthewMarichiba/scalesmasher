@@ -13,7 +13,7 @@ function MasherFretboard(instrument, scale, lowFret, highFret) {
 
     
 /************* Define local properties that are used by local methods ************/
-    // scaleNoteSets is an array of stringSets. 
+    // scaleNoteSets is an array of stringSets. Form: scaleNoteSets[scale][string][fret]
     // Each string set represents the frets on each string where decorators will appear. 
     this.scaleNoteSets = []; //TODO: DOcument. Rename to "_scaleNoteSets"?
 
@@ -59,6 +59,13 @@ function MasherFretboard(instrument, scale, lowFret, highFret) {
  * renderHTML() renders the HTML for all scales overlaid on the instrument.
  */
     this.renderHTML = function() {
+        // Update decorators for all scales
+        var i = 0;
+        while (this.scales[i]) {    // TODO: Make this pick the scales that are selected, not just the first 3
+            this._populateStringDecorators(this, i);
+            i++;
+        }
+
         var stringsHTML = '<div id="fretboardcontainer" class="container_32">'; 
 
         if (this.lowFret != 0) { // If we're not starting from the nut, top the fretboard with a fret divider. 

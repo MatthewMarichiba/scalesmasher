@@ -1,0 +1,41 @@
+<!doctype html>
+<head>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style32col.css" />
+    <link rel="stylesheet" href="css/panel.css" />
+    
+</head>
+<body>
+    <div id="scalesmasher_controls">
+        This is the DIV with id 'scalesmasher_controls'.<br>
+    </div>
+
+    <div class="clear">&nbsp;</div>
+
+    <div id="scalesmasher">
+        This is the DIV with id 'scalesmasher'.
+    </div>
+    
+    Try this code on for size:<br>
+    var myMasher = new Masher;<br>
+    var myInstrument = new MasherInstrument(6, "E", ["P4","P4","P4","M3","P4"], "Shredding Guitar");<br>
+    var myScale = new MasherScale("A", myMasher.scales.majorPenta, "intervals", "Ionian Scale in E");<br>
+    var myFretboard = new MasherFretboard(myInstrument, myScale, 5, 12);<br>
+    var smElement = document.getElementById("scalesmasher");<br>
+    smElement.innerHTML = myFretboard.innerHTML;<br>
+    myFretboard.addScale(new MasherScale("C", myMasher.scales.majorPenta, "intervals", "1st additional scale"), 1);<br>
+    myFretboard.renderHTML();<br>
+    smElement.innerHTML = myFretboard.innerHTML;<br>
+    myFretboard.removeScale(0);<br>
+
+
+    <script src="./libs/jquery-1.9.1.js"></script>
+    <script src="./src/masher.js"></script>
+    <script src="./src/masherinstrument.js"></script>
+    <script src="./src/masherscale.js"></script>
+    <script src="./src/masherfretboard.js"></script>
+    <script src="./src/masherpanel.js"></script>
+    <script src="./src/panel_testbed.js"></script>
+</body>
+</html>

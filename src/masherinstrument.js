@@ -12,9 +12,24 @@ function MasherInstrument(numStrings, lowStringNote, stringIntervals, name) {
     // This function encapsulates object state by defining function that return 
     // private variable values, rather than allowing outsiders to access the variables directly.   
 
-    // TODO: Test that all args have aren't null. Assign a default value, if they do. 
-    this.numStrings = function() {return numStrings;} ;
-    this.lowStringNote = function() {return lowStringNote;} ;
-    this.stringIntervals = function() {return stringIntervals;} ;
-    this.name = function() {return name;} ;
+    // TODO: Test that all args aren't null. Assign a default value, if they do. 
+    this.numStrings = function(val) {
+        if (val) {numStrings = val;}
+        return numStrings;
+    } ;
+    
+    this.lowStringNote = function(val) {
+        if (val) {lowStringNote = val;}
+        return lowStringNote;
+    } ;
+    
+    this.stringIntervals = function(val) {
+        if (val) {stringIntervals = val;}
+        return stringIntervals;
+    } ;
+    
+    this.name = function(val) {
+        if (val) {name = val;}
+        return name;
+    } ;
 }
