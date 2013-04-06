@@ -16,9 +16,11 @@ function MasherFretboard(instrument, scale, lowFret, highFret) {
     // scaleNoteSets is an array of stringSets. Form: scaleNoteSets[scale][string][fret]
     // Each string set represents the frets on each string where decorators will appear. 
     this.scaleNoteSets = []; //TODO: DOcument. Rename to "_scaleNoteSets"?
+    this.enabledScales = [true];
 
 
 /************* Define operator methods **************/
+    // TODO: Javadoc
     this.addScale = function(theScale, scaleNum) {
         if (scaleNum!==undefined) { // if scaleNum was provided, use it
             this.scales[scaleNum] = theScale;
@@ -53,6 +55,15 @@ function MasherFretboard(instrument, scale, lowFret, highFret) {
         highFret = Math.floor(highFret);
     }
  */
+
+/* TODO: Syntax check this function-- something about it isn't working.
+    //TODO: Javadoc
+    this.toggleScale = function(scaleNum) {
+        (this.enabledScales[scaleNum]) {
+            return this.enabledScales[scaleNum] = false;
+        }
+    }
+*/
 
 // TODO: Touch up JavaDoc
 /**
@@ -209,7 +220,7 @@ MasherFretboard.prototype._fillLowStringNotes = function(fretBoard, scalesIndex)
             lowString[fretInQuestion] = lowString[fretInQuestion+12] = decorator; 
 //            lowString[(fretInQuestion+12)] = scale.notesToShow()[i];
             // TODO: Update this code to assign the decorator values directly to lowString.
-            console.log("i= " + i + ", Fret: " + fretInQuestion + ", value = " + lowString[fretInQuestion]);
+            // console.log("i= " + i + ", Fret: " + fretInQuestion + ", value = " + lowString[fretInQuestion]);
         } 
     }
     lowString[24] = lowString[0];
@@ -233,10 +244,10 @@ MasherFretboard.prototype._fillHigherStringNotes = function(fretBoard, scalesInd
             throw new Error("String interval:" + fretBoard.instrument.stringIntervals()[theString]);
         } 
         fretBoard.scaleNoteSets[scalesIndex][theString+1] = [];
-        console.log("String #: " + (theString+1)); 
+        // console.log("String #: " + (theString+1)); 
         for (var i = 0; i <= 24; i++) {
             fretBoard.scaleNoteSets[scalesIndex][theString+1][i] = fretBoard.scaleNoteSets[scalesIndex][theString][(i+intervalToNextString)%12];
-            console.log("Fret "+i+": " + fretBoard.scaleNoteSets[scalesIndex][theString+1][i]);
+            // console.log("Fret "+i+": " + fretBoard.scaleNoteSets[scalesIndex][theString+1][i]);
         }
     }
 };

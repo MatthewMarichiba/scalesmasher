@@ -1,5 +1,7 @@
 #scalesmasher {
     font-family:"Courier";
+    position:relative;
+    z-index:1;
 }
 
 .fretdivider {

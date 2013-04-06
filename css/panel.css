@@ -1,3 +1,9 @@
+#scalesmasher_controls {
+    position:relative;
+    z-index:10;
+}
+
+/*
 .notebox {
     width:13px;
     height:13px;
@@ -8,16 +14,49 @@
     border-width:1px;
     float:left;
     margin-right:1px;
-/*    box-shadow: 1px 1px 4px #888888; */
+/*    box-shadow: 1px 1px 4px #888888; * /
     font-family:sans-serif;
     font-size:9px;
     color:#000;
     padding:1px;
-    
+}
+*/
+
+.notebox { /* This version looks like the .notedecorator */ 
+    width:25px;
+/*    max-height:15px; */
+    border-color:#777; 
+    border-style:solid; 
+    border-width:1px; 
+    float:left;
+    margin-right:1px; 
+/*    box-shadow: 1px 1px 4px #888888; */
+/*    padding:1px; */ 
+
+
+   height:15px;
+   border-radius:10px;
+   
+   margin-left:auto;
+   margin-right:auto;
+
+   text-align:center;
+   color:white;
+   font-weight:bold;
+   font-family:sans-serif;
+   font-size:10px;
+   cursor:pointer;
+}
+
+.scale1 {
+   background-color:#F00;
+/*   position:absolute;
+   top:3px;
+   left:2px; */ 
 }
 
 .enabled {
-    background-color: #FFFF00;
+    /* background-color: #FFFF00; */
     font-weight:bold;
 }
 
@@ -25,4 +64,29 @@
     background-color: #AAA;
     font-weight:normal;
     font-size:0.5en;
+}
+
+.hovermenu_trigger {
+    position:relative;
+    text-align:center;
+    width:100px;
+    float:left;
+}
+
+.hovermenu_items {
+   background-color:#FFF;
+   position:absolute;
+   top:0px;
+   left:0px; 
+   width:100px;
+}
+
+li.hovermenu_item:hover {
+    background-color:#000;
+    color:#F00
+}
+
+.hovermenu_item_active {
+    font-weight:bold;
+    color:#0000FF;
 }
