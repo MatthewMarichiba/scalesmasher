@@ -17,7 +17,12 @@ function MasherPanel(fretboard, panelDivElement) {
 
     this.innerHTML = "The MasherPanel object has been initialized."; //TODO: Remove this note later.
 
+
+    // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& 
     // &&&&&&&&&&&&&&&& Define MasherPanel Class Methods &&&&&&&&&&&&& 
+    // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& 
+
+    // TODO: Javadoc
     this.displayFretboard = function() {
         self.fretboard.renderHTML();
         var fretboardElement = document.getElementById("scalesmasher");
@@ -26,6 +31,7 @@ function MasherPanel(fretboard, panelDivElement) {
         console.log("Does the HTML match the fretboard state: " + (fretboardElement.innerHTML == self.fretboard.innerHTML));
     }    
 
+    // TODO: Javadoc
     this._emitDivId = function(scaleNum, noteNum) {
         if ((scaleNum == null) || (noteNum == null)) {
             console.log("_emitDivId: Invalid scaleNum or noteNum");
@@ -34,13 +40,13 @@ function MasherPanel(fretboard, panelDivElement) {
         return "s" + scaleNum + "n" + noteNum;
     }
 
+    // TODO: Javadoc
     this._emitScaleNoteOnOffBox = function(scaleNum, noteNum) {
     // 1. look up existing state in instrument
     // 2. emit div code, substituting: scaleNum, noteNum, and state
     // 3. return HTML
     
         var boxCode = "";
-    //    var divId = this._emitDivId(scaleNum, noteNum);
         var isEnabled;
         if (this.fretboard.scales[scaleNum].notesToShow()[noteNum]) {
             isEnabled = "enabled";
@@ -49,33 +55,27 @@ function MasherPanel(fretboard, panelDivElement) {
         }
          
         boxCode += "<div id='" + this._emitDivId(scaleNum, noteNum) + "' class='notebox scale1 " + isEnabled + "'>";
-        // boxCode += "<div id='" + this._emitDivId(scaleNum, noteNum) + "' class='notedecorator " + isEnabled + "'>";
         boxCode += Masher.prototype.intervalNotes[noteNum];
         boxCode += "</div>";
         console.log(boxCode); // DEBUG
         return boxCode;
-        
-        //var code = "";
-        //code += "<div id='" + id + "' class='checkbox " + state + "'></div>";
-        //return code;    
     }
     
+    // TODO: Javadoc
     this._getScaleNum = function(id) {
         return id.match(/s(.*)n/)[1];
     }
     
+    // TODO: Javadoc
     this._getNoteNum = function(id) {
         return id.match(/n(.*)/)[1];
     }
     
+    // TODO: Javadoc
     this._handleScaleNoteOnOffEvent = function(event) {
         $(this).toggleClass("disabled");
         $(this).toggleClass("enabled");
-        // console.log($(this));
-        // console.log(this);
-        // console.log(event.target.id);
         var targetId = event.target.id;
-        // console.log(self._getScaleNum(targetId));
         console.log(self._getNoteNum(targetId));
         var scaleNum = self._getScaleNum(targetId);
         var noteNum = self._getNoteNum(targetId);
@@ -91,17 +91,9 @@ function MasherPanel(fretboard, panelDivElement) {
         console.log("state in fretboard properties: " + self.fretboard.scales[scaleNum].notesToShow());    
         
         self.displayFretboard();
-    /*
-       var checkboxIndex = $(this).prop("id");
-        if (checkboxVals[checkboxIndex] == "disabled") {
-            checkboxVals[checkboxIndex] = "enabled";
-        } else {
-            checkboxVals[checkboxIndex] = "disabled";
-        }
-        console.log(checkboxVals);        
-    */
     }
     
+    // TODO: Javadoc
     this._activateScaleNoteOnOffBox = function(scaleNum, noteNum) {
     // 1. Look up DOM element for the box.
     // 2. Set onclick action for the box.
@@ -112,29 +104,29 @@ function MasherPanel(fretboard, panelDivElement) {
         return $("#"+divId).click(this._handleScaleNoteOnOffEvent);
     }
 
-    this._emitHoverMenu = function(menu_hash, menu_items, init_item) {
+    // TODO: Javadoc
+    this._emitHoverMenu = function(menuName, menuItems, initItem) {
         // Form:
         // <div id="hovermenu_<menu_name>" class="hovermenu_trigger">
         //   <p>Current item</p>
-        //   <div id="hovermenu_<menu_name>" class="hovermenu_items">
-        //     <ul id="hovermenu_items_<menu_name>" class="hovermenu_items">
-        //       <li id="hovermenu_item_<menu_name><#>" class="hovermenu_item hovermenu_item_<menu_name>">Menu item #</li>
-        //       ...
-        //     </ul>
-        //   </div>
-        // </div> 
-        self.menustate[menu_hash] = menu_items;
-        var code = '<div id="hovermenu_' + menu_hash + '" class="hovermenu_trigger"><p>' + init_item + '</p>';
-        code += '<ul id="hovermenu_items_' + menu_hash + '" class="hovermenu_items">';
-        for (var i = 0; i < menu_items.length; i++) {
-            code += '<li id="hovermenu_item_' + menu_hash + "_" + i + '" class="hovermenu_item hovermenu_item_' + menu_hash + '">' + menu_items[i] + '</li>';
+        //   <ul id="hovermenu_items_<menu_name>" class="hovermenu_items">
+        //     <li id="hovermenu_item_<menu_name>_<#>" class="hovermenu_item hovermenu_item_<menu_name>">Menu item #</li>
+        //     ...
+        //   </ul>
+        // </div>
+        self.menustate[menuName] = menuItems;
+        var code = '<div id="hovermenu_' + menuName + '" class="hovermenu_trigger"><p>' + initItem + '</p>';
+        code += '<ul id="hovermenu_items_' + menuName + '" class="hovermenu_items">';
+        for (var i = 0; i < menuItems.length; i++) {
+            code += '<li id="hovermenu_item_' + menuName + "_" + i + '" class="hovermenu_item hovermenu_item_' + menuName + '">' + menuItems[i] + '</li>';
         }
-        code += '</ul></div></div>';
+        code += '</ul></div>';
         return code;
     }
 
     // Get the hovermenu id from the id of a clicked item in the menu
-    // Ex: hovermenu_item_notes_2  --> "notes"
+    // Ex: hovermenu_item_notes_4  --> "notes"
+    // TODO: Javadoc
     this._getMenuNameFromHovermenuId = function(id) {
         var regex = /_([a-zA-Z0-9]+)_\d+$/;
         return id.match(regex)[1];
@@ -142,20 +134,15 @@ function MasherPanel(fretboard, panelDivElement) {
 
     // Get the item number from the id of a clicked item in a hovermenu
     // Ex: hovermenu_item_notes_12  --> 12
+    // TODO: Javadoc
     this._getItemNumFromHovermenuId = function(id) {
         var regex = /_(\d+$)/;
         return id.match(regex)[1];
     }
 
-/*
-    this._getSelectionFromHovermenuId = function(id) {
-        var regex = menu_hash + "(.*)";
-        return id.match(regex)[1];
-    }
-*/
-
+    // TODO: Javadoc
     this._handleHovermenuItemClick = function(event) {
-        // 1. Get menu_hash from ID -- Figure out which menu was clicked.
+        // 1. Get menuName from ID -- Figure out which menu was clicked.
         // 2. Get the <li> value from the DOM -- Actually, it's the innerHTML of the item clicked.
         // 3. Find the index value in the item list. -- it's the number at the end of the id.
         // 4. De-select all other entries (or at least the previously selected item) in the list.
@@ -163,61 +150,68 @@ function MasherPanel(fretboard, panelDivElement) {
         // 6. Change the value of the current item in the fretboard Scale for a particular scaleNum.
         // 7. Re-compute finger decorators.
 
-        var item = {}; // Object to hold properties: menuName, menuItem, num & selection 
-        var regex;
+        var menuName = self._getMenuNameFromHovermenuId(event.target.id);
+        var itemNum = self._getItemNumFromHovermenuId(event.target.id);
+        var itemName = event.target.innerHTML;
         
-        item.menuName = self._getMenuNameFromHovermenuId(event.target.id);
-        item.num = self._getItemNumFromHovermenuId(event.target.id);
-//        item.itemName = self._getSelectionFromHovermenuId(event.target.id);
-        item.selection = event.target.innerHTML;
-        
-        console.log("Hi! It's hovermenu_item_" + item.menuName + item.num + ": " + item.selection);
+        console.log("Hi! It's hovermenu_item_" + menuName + "_" + itemNum + ": " + itemName);
         console.log("Here's the event object for this click:");
         console.log(event);
         
         // 4. De-select all other entries (or at least the previously selected item) in the list.
-        $(".hovermenu_item_"+item.menuName).removeClass("hovermenu_item_active");
+        $(".hovermenu_item_"+menuName).removeClass("hovermenu_item_active");
 
         // 5. Highlight the new item in the list. 
         $(this).addClass("hovermenu_item_active");
-        $("#hovermenu_"+item.menuName+" p").html(item.selection);  // Dipslay it in the currently-selected slot.
-        $("#hovermenu_items_"+item.menuName).hide();    // Hide the hovermenu now that user has made a selection. 
+        $("#hovermenu_"+menuName+" p").html(itemName);  // Dipslay it in the currently-selected slot.
+        $("#hovermenu_items_"+menuName).hide();    // Hide the hovermenu now that user has made a selection. 
 
-        // 6. Change the value of the current item in the fretboard Scale for a particular scaleNum.
-        self.fretboard.scales[0].tonic(item.selection); //TODO: Write some accessor functions to change data structure automatically.
+        // 6. Process the item: Change the value of the current item in the fretboard Scale for a particular scaleNum.
+        self.fretboard.scales[0].tonic(itemName); //TODO: Write some accessor functions to change data structure automatically.
         self.displayFretboard();
-//        self.fretboard.renderHTML();
-//        var smElement = document.getElementById("scalesmasher");
-//        smElement.innerHTML = self.fretboard.innerHTML;
-
- 
     }
 
-    this._activateHoverMenu = function(menu_hash) {
-        // Show the hovermenu_items when mouse enters the hovermenu_trigger
-        $('#hovermenu_'+menu_hash).mouseenter(function() {
-            $('#hovermenu_items_'+menu_hash).show();
-        });
+    // TODO: Javadoc
+    /**
+     * Activates hovermenu HTML
+     * @param menuName  the name string for the menu. This string shows up in HTML.
+     * @param handleClick  a 
+     */
+    this._activateHoverMenu = function(menuName, handleClick) {
+        var hovermenuItems = $('#hovermenu_items_'+menuName);
+
+        // Hide the hovermenu_items list to start
+        hovermenuItems.hide();
+
+        // Show the hovermenu_items when mouse enters the hovermenu_trigger, or when it's clicked
+        $('#hovermenu_'+menuName)
+            .mouseenter(function() {
+                hovermenuItems.show();
+            })
+            .click(function() {
+                hovermenuItems.show();
+            });
+
         
         // Hide the hovermenu_items when mouse leaves the movermenu_items
-        var hovermenu_items = $('#hovermenu_items_'+menu_hash);
-        hovermenu_items.mouseleave(function() {
-            $(hovermenu_items).hide();
+//        var hovermenuItems = $('#hovermenu_items_'+menuName);
+        hovermenuItems.mouseleave(function() {
+            $(hovermenuItems).hide();
         });
 
 
-        for (var i = 0; i < self.menustate[menu_hash].length; i++) {
-            // Set click behavior on each menu item
-            $('#hovermenu_item_'+menu_hash+"_"+i).click(self._handleHovermenuItemClick);              
-//            $('#hovermenu_item_'+menu_hash+i).click(function(event) {
-//                console.log("Hi! It's hovermenu_item_" + menu_hash + self._getItemNumFromHovermenuId(event.target.id, menu_hash));
-//            });
+        // Set click behavior on each menu item
+        for (var i = 0; i < self.menustate[menuName].length; i++) {
+            $('#hovermenu_item_'+menuName+"_"+i).click(self._handleHovermenuItemClick);              
         }
     }
 
     this.renderAndActivateHTML = function() {
-        var code = "";
         var smPanel = $('#scalesmasher_controls');
+        var code = "";
+        
+        // Clear the smPanel
+        smPanel.html(code);
 
         // Render & activate the instrument controls
         // TODO: do this once I have the controls developed.
@@ -226,22 +220,14 @@ function MasherPanel(fretboard, panelDivElement) {
         var scale = 0;  // TODO: Expand this to iterate through all scales. 
 
         // Emit the HTML for the hovermenu
-        var menu_hash = "notes";
-        var menu_items = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]; //TODO: Add this string literal to the Masher class, or better yet the MasherPanel class.
-        var menu_text = "Note";
+        var menuName = "scale"+scale;
+        var menuItems = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]; //TODO: Add this string literal to the Masher class, or better yet the MasherPanel class.
+        var initItem = self.fretboard.scales[0].tonic();
                 
-        code = this._emitHoverMenu(menu_hash, menu_items, menu_text);
+        code = this._emitHoverMenu(menuName, menuItems, initItem);
         smPanel.append(code);
 
-        // <div id="hovermenu_<hash>" class="hovermenu_trigger">  -- ex: menus["notes"] = ["C", "C#/Db", "D", "D#/Eb", ...];
-        //   <div class="hovermenu_items"> -- Default CSS is hidden.
-        //     <ul  id="hovermenu_items_<hash>" class="hovermenu_items">
-        //       <li id="hovermenu_item_<hash>0" class="hovermenu_item">menus[hash][0]</li>
-        //       <li id="hovermenu_item_<hash>1" class="hovermenu_item">menus[hash][1]</li>
-        //       <li id="hovermenu_item_<hash>2 class="hovermenu_item">menus[hash][2]</li>
-        //          ...
-
-        this._activateHoverMenu(menu_hash);        
+        this._activateHoverMenu(menuName);        
         
         // Emit the HTML for the note on/off buttons.
         code = "";

@@ -816,6 +816,8 @@ body {
   Move to separate stylesheet if invalid CSS is a problem.
 */
 
+/* &&&MJM
 .clearfix {
   zoom: 1;
 }
+/*

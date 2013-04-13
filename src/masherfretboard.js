@@ -70,6 +70,19 @@ function MasherFretboard(instrument, scale, lowFret, highFret) {
  * renderHTML() renders the HTML for all scales overlaid on the instrument.
  */
     this.renderHTML = function() {
+        // TODO: Document the format of the fretboard HTML:
+        /* Fretboard DIV structure:
+            <div id="fretboardcontainer" class="container_32">
+                <div id="" class="grid_6 nut">&nbsp;</div>
+                <div class="clear"></div>
+                <div id="" class="grid_7 fingerboxcontainer">
+                    <div id="" class="grid_1 fingerbox leftedge thickstring">
+                        <div class="notedecorator decorator1">P1</div>
+                    </div>
+                </div>
+            <div class="clear"></div>
+        */
+        
         // Update decorators for all scales
         var i = 0;
         while (this.scales[i]) {    // TODO: Make this pick the scales that are selected, not just the first 3
@@ -90,23 +103,13 @@ function MasherFretboard(instrument, scale, lowFret, highFret) {
         stringsHTML += '</div>'; // END of fretboardcontainer
         this.innerHTML = stringsHTML;
     }
-    /* Fretboard DIV structure:
-        <div id="fretboardcontainer" class="container_32">
-            <div id="" class="grid_6 nut">&nbsp;</div>
-            <div class="clear"></div>
-            <div id="" class="grid_7 fingerboxcontainer">
-                <div id="" class="grid_1 fingerbox leftedge thickstring">
-                    <div class="notedecorator decorator1">P1</div>
-                </div>
-            </div>
-        <div class="clear"></div>
-    */
 
-// TODO: Touch up JavaDoc
+// TODO: JavaDoc
 /**
  * _renderFret() renders the HTML for a single fret on the instrument.
  */
     this._renderFret = function(fretNum) {
+        //TODO: Document div structure of the fret.
         var thisFret = '<div id="" class="grid_8 fingerboxcontainer">';
         var lastString = (this.instrument.numStrings()-1);
         for (var i = 0; i <= lastString; i++) { //TODO: rename "i" to "stringNum" for clarity
@@ -176,7 +179,6 @@ MasherFretboard.prototype.scales = [new MasherScale("C", [1,0,1,0,1,1,0,1,0,1,0,
 MasherFretboard.prototype.lowFret = 0;
 MasherFretboard.prototype.highFret = 24;
 MasherFretboard.prototype.innerHTML = "Practice your scales at <a href='http://www.scalesmasher.com'>ScalesMasher.com!</a>";
-// MasherFretboard.prototype.scaleNoteSets = []; // An array of arrays representing the string decorators for each scale.
 
 MasherFretboard.prototype._populateStringDecorators = function(fretBoard, scaleNum) {
         fretBoard._fillLowStringNotes(fretBoard, scaleNum);

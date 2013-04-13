@@ -3,6 +3,11 @@
     z-index:10;
 }
 
+#scalesmasher_panel {
+    position:relative;
+    z-index:10;
+}
+
 /*
 .notebox {
     width:13px;
@@ -22,7 +27,7 @@
 }
 */
 
-.notebox { /* This version looks like the .notedecorator */ 
+.onoffbox { /* This version looks like the .notedecorator */ 
     width:25px;
 /*    max-height:15px; */
     border-color:#777; 
@@ -48,6 +53,20 @@
    cursor:pointer;
 }
 
+.onoffbox {
+    background-color: #AAA;
+    font-weight:normal;
+    font-size:0.5en;
+
+   cursor:pointer;
+}
+
+.box_on {
+    color:#000;
+    background-color: #FFFF00;
+    font-weight:bold;
+}
+
 .scale1 {
    background-color:#F00;
 /*   position:absolute;
@@ -55,30 +74,48 @@
    left:2px; */ 
 }
 
-.enabled {
-    /* background-color: #FFFF00; */
-    font-weight:bold;
-}
-
-.disabled {
-    background-color: #AAA;
-    font-weight:normal;
-    font-size:0.5en;
-}
-
 .hovermenu_trigger {
     position:relative;
     text-align:center;
-    width:100px;
+/*    width:100px; */
     float:left;
+    cursor:pointer;
+    
+    border-color:#777; 
+    border-style:solid; 
+    border-width:1px; 
+    float:left;
+    margin-right:1px; 
+/*    box-shadow: 1px 1px 4px #888888; */
+/*    padding:1px; */ 
+
+
+/*   height:15px; */
+   border-radius:5px;
+   
+   margin-left:auto;
+   margin-right:auto;
 }
 
-.hovermenu_items {
+.hovermenu_list {
    background-color:#FFF;
    position:absolute;
-   top:0px;
+   top:10px; 
    left:0px; 
-   width:100px;
+/*   width:100px; */
+   cursor:pointer;
+   
+    border-color:#777; 
+    border-left-style:solid; 
+    border-right-style:solid; 
+    border-bottom-style:solid; 
+    border-width:1px; 
+    float:left;
+    margin-right:1px; 
+   border-radius:5px;
+   
+   margin-left:auto;
+   margin-right:auto;
 }
 
 li.hovermenu_item:hover {

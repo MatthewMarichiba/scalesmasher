@@ -36,29 +36,27 @@ console.log(myInstrument.name());
 /* Test the MasherScale class */
 console.log("Testing the MasherScale class");
 //var myScale = new MasherScale("E", myMasher.scales.ionian, "sharps", "Ionian Scale in E");
-//var myScale = new MasherScale("E", myMasher.scales.ionian, "intervals", "");
-var myScale = new MasherScale("A", myMasher.scales.majorPenta, "intervals", "");
+//var myScale = new MasherScale("E", myMasher.scales.ionian, "intervals", "Ionian Scale in E");
+var myScale = new MasherScale("A", myMasher.scales.majorPenta, "intervals", "Ionian Scale in E");
 console.log(myScale.tonic());
 console.log(myScale.notesToShow());
 console.log(myScale.name());
 
 /* Test the MasherFretboard class */
 console.log("Testing the MasherFretboard class with custom values");
-var myFretboard = new MasherFretboard(myInstrument, myScale, 0, 12);
+var myFretboard = new MasherFretboard(myInstrument, myScale, 5, 12);
 console.log(myFretboard.scales[0].notesToShow());
 console.log(myFretboard.instrument.name());
 console.log(myFretboard.highFret);
 
 /* Test adding more scales to myFretboard */
-
-console.log("Testing adding new scales with addScale().");
-// myFretboard.addScale(new MasherScale("F#", myMasher.scales.minorPenta, "sharps", "2st additional scale"), 1);
-// myFretboard.addScale(new MasherScale("C", myMasher.scales.majorPenta, "intervals", "1st additional scale"), 2);
-myFretboard.addScale(new MasherScale("A", myMasher.scales.ionian, "sharps", "1st additional scale"), 2);
-myFretboard.renderHTML();
-
-
 /*
+console.log("Testing adding new scales with addScale().");
+myFretboard.addScale(new MasherScale("C", myMasher.scales.majorPenta, "intervals", "1st additional scale"), 1);
+console.log(myFretboard.scales[1].notesToShow());
+myFretboard.addScale(new MasherScale("A", myMasher.scales.minorPenta, "intervals", "2st additional scale"));
+console.log(myFretboard.scales[2].notesToShow());
+myFretboard.removeScale(2);         
 // myFretboard.removeScale(0);
 myFretboard.addScale(new MasherScale("A", myMasher.scales.minorPenta, "intervals", "2st additional scale"));
 console.log(myFretboard.scales[0].notesToShow());
@@ -76,12 +74,10 @@ console.log(myFretboardDefaults.instrument + "\n" + myFretboardDefaults.scales[0
 */
 
 /* Get the scalesmasher div & substitute in rendered HTML */
-
 console.log("Get the scalesmasher div & substitute in rendered HTML...");
 var smElement = document.getElementById("scalesmasher");
 console.log(smElement);
 smElement.innerHTML = myFretboard.innerHTML;
-/*
 // console.log(smElement.innerHTML);
 alert("Up next: add a scale to slot 1 and re-render.");
 myFretboard.addScale(new MasherScale("C", myMasher.scales.majorPenta, "intervals", "1st additional scale"), 1);
@@ -112,4 +108,3 @@ var smCtrlElement = document.getElementById("scalesmasher_controls");
 console.log(smCtrlElement);
 smCtrlElement.innerHTML = myFretboard.innerHTML;
 
-*/
